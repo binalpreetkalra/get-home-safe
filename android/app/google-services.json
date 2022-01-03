@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "746317685045",
+    "firebase_url": "https://walk-safe-a8a0c-default-rtdb.firebaseio.com",
+    "project_id": "walk-safe-a8a0c",
+    "storage_bucket": "walk-safe-a8a0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746317685045:android:b59741bf7e003dda5c6c7c",
+        "android_client_info": {
+          "package_name": "com.walksafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746317685045-j1pmten0qskf38lvfnq498ekh5qf31vu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVNtrZ7WXdL3i_TJs-1-EKe12d2YyfpUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746317685045-j1pmten0qskf38lvfnq498ekh5qf31vu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "746317685045-i2q8ve91qgu441v6jc7vm64t7jqsemu9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.walksafe"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746317685045:android:43d1372e77e579ce5c6c7c",
+        "android_client_info": {
+          "package_name": "com.walksafeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746317685045-777rs0ksj0v72u72ff9gt3q9aooltqk1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walksafeapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "746317685045-j1pmten0qskf38lvfnq498ekh5qf31vu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVNtrZ7WXdL3i_TJs-1-EKe12d2YyfpUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746317685045-j1pmten0qskf38lvfnq498ekh5qf31vu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "746317685045-i2q8ve91qgu441v6jc7vm64t7jqsemu9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.walksafe"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
