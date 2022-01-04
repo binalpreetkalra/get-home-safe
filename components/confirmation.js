@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable} from 'react-native';
+import { Text, View, StyleSheet, TextInput, Platform, Image,
+  TouchableOpacity, Alert, Pressable, PermissionsAndroid, Dimensions} from 'react-native';
 
 import auth from '@react-native-firebase/auth';
 
@@ -15,6 +16,7 @@ export default class Confirmation extends Component {
     this.codeDigitsArray = new Array(code_length).fill('0');
 
     this.handleOnPress = this.handleOnPress.bind(this);
+    this.getPermissionsAndroid = this.getPermissionsAndroid.bind(this);
 
     this.phone = this.props.route.params.number;
 
@@ -29,13 +31,36 @@ export default class Confirmation extends Component {
       })
   }
 
+  getPermissionsAndroid = async () => {
+
+    try {
+      const loc = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+      const contacts = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
+
+      if (loc && contacts) {
+        this.props.navigation.navigate('Map', {uid: auth().currentUser.uid});
+      } else {
+        this.props.navigation.navigate('Signin');
+      }
+    } catch (error) {
+      console.warn(error)
+    }
+  }
+
   confirmCode = async() => {
     console.log(this.state.number);
     try {
       await this.state.confirm.confirm(this.state.number)
       .then(() => {
           console.log("success");
-          this.props.navigation.navigate('Map', {uid: auth().currentUser.uid})
+          if (Platform.OS == 'android') {
+            this.getPermissionsAndroid();
+          }
+          else {
+            this.props.navigation.navigate('Map', {uid: auth().currentUser.uid})
+          }
       });
     } catch (error) {
       if (this.state.invalidCount >= 2) {
@@ -65,42 +90,48 @@ export default class Confirmation extends Component {
   
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          Confirmation
-        </Text>
-        <Text style={styles.subtitle}>
-          Enter code
-        </Text>
-        <Text style={styles.paragraph}>
-          Please type the 6-digit code sent to {this.phone}
-        </Text>
-
-        <Pressable style={styles.inputs_container} onPress={this.handleOnPress}>
-          {this.codeDigitsArray.map(this.toDigitInput)}
-        </Pressable>
-
-        <View>
-          {this.state.digitContainers}
-          <TextInput
-            ref={this.inputRef}
-            style={styles.input}
-            onChangeText={(number) => this.setState({number})}
-            value={this.state.number}
-            keyboardType="number-pad"
-            maxLength={code_length}
-            //add smth to limit it to 6 numbers
-          />
+      <View flex={1} backgroundColor="white">
+        <View flex={2}>
+          <Image source={require('./bkgd-squiggle.png')} style={styles.image}/>
         </View>
 
-        
-        <TouchableOpacity 
-          onPress={this.confirmCode}>
-          <View style = {styles.button}>
-            <Text style={styles.buttonText}> Continue</Text>
+        <View style={styles.container}>
+          <Text style={styles.title}>
+            Confirmation
+          </Text>
+          <Text style={styles.subtitle}>
+            Enter code
+          </Text>
+          <Text style={styles.paragraph}>
+            Please type the 6-digit code sent to {this.phone}
+          </Text>
+
+          <Pressable style={styles.inputs_container} onPress={this.handleOnPress}>
+            {this.codeDigitsArray.map(this.toDigitInput)}
+          </Pressable>
+
+          <View>
+            {this.state.digitContainers}
+            <TextInput
+              ref={this.inputRef}
+              style={styles.input}
+              onChangeText={(number) => this.setState({number})}
+              value={this.state.number}
+              keyboardType="number-pad"
+              maxLength={code_length}
+              //add smth to limit it to 6 numbers
+            />
           </View>
+
+          <TouchableOpacity 
+            onPress={this.confirmCode}>
+            <View style = {styles.button}>
+              <Text style={styles.buttonText}> Continue</Text>
+            </View>
           </TouchableOpacity>
+        </View>
       </View>
+      
     );
   }
 }
@@ -108,9 +139,15 @@ export default class Confirmation extends Component {
 const code_length = 6;
 
 const styles = StyleSheet.create({
- container: {
-    flex: 1,
+  container: {
+    flex: 2,
     marginLeft: 20
+  },
+
+  image: {
+    width: '100%',
+    height: Dimensions.get('window').height / 2,
+    resizeMode: 'stretch',
   },
 
   inputs_container: {
@@ -118,21 +155,21 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingTop: 20,
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 
   input_container: {
-    borderColor: '#6CBCAE',
-    borderWidth: 2,
+    borderColor: 'grey',
+    borderBottomWidth: 2,
     borderRadius: 4,
     padding: 12,
+    marginRight: 15
   },
 
   title: {
     color: '#6CBCAE',
     fontWeight: 'bold',
     fontSize: 25,
-    marginTop: 100,
+    //marginTop: 100,
   },
 
   subtitle: {

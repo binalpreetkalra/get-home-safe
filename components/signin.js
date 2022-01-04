@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 import PhoneInput from "react-native-phone-number-input";
 
@@ -19,7 +19,11 @@ export default class Signin extends Component {
   
   render(){
     return (
-      <ImageBackground style={{flex: 1}} >
+      <View flex={1} backgroundColor='white'>
+        <View flex={2}>
+         <Image source={require('./bkgd-squiggle.png')} style={styles.image}/>
+        </View>
+
         <View style={styles.container}>
           <Text style={styles.title}>
             Sign in
@@ -30,13 +34,6 @@ export default class Signin extends Component {
           <Text style={styles.paragraph}>
             Use this as your quick log in to store your frequent contacts
           </Text>
-          {/* <TextInput
-            style={styles.input}
-            onChangeText={(number) => this.setState({number})}
-            value={this.state.number}
-            placeholder="Enter phone number"
-            keyboardType="numeric"
-          /> */}
           <PhoneInput
             ref = {this.state.number}
             onChangeText={(number) => this.setState({number})}
@@ -48,24 +45,32 @@ export default class Signin extends Component {
             <View style = {styles.button}>
               <Text style={styles.buttonText}> CONTINUE</Text>
             </View>
-            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginLeft: 20
+    flex: 2,
+    marginLeft: 20,
+  },
+
+  image: {
+    width: '100%',
+    height: Dimensions.get('window').height / 2,
+    resizeMode: 'stretch',
   },
 
   title: {
     color: '#6CBCAE',
     fontWeight: 'bold',
     fontSize: 25,
-    marginTop: 100,
+    // textShadowColor: 'white',
+    // textShadowRadius: 2,
+    // textShadowOffset: { width: 2, height: 2, }
   },
 
   subtitle: {

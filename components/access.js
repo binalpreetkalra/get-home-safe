@@ -1,38 +1,51 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TextInput , TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, Dimensions , TouchableOpacity, Image} from 'react-native';
 
 export default function Confirmation({navigation}) {
   
   const [number, onChangeNumber] = React.useState(null);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        Grant access
-      </Text>
-      <Text style={styles.subtitle}>
-        Location tracking & Contact Info
-      </Text>
-      <Text style={styles.paragraph}>
-        You will be prompted to provide Get Home Safe access to your location and contacts in order to use this app. 
-      </Text>
-      <Text style={styles.paragraph}>
-        This will only be used to track your location when you choose to share it with your trusted contacts.
-      </Text>
-      <TouchableOpacity 
-        onPress={() => navigation.navigate("Map")}>
-        <View style = {styles.button}>
-          <Text style={styles.buttonText}> Continue</Text>
-        </View>
-        </TouchableOpacity>
+    <View flex={1}>
+      <View flex={2}>
+        <Image source={require('./bkgd-squiggle.png')} style={styles.image}/>
+      </View>
+
+      <View style={styles.container}>
+        <Text style={styles.title}>
+          Grant access
+        </Text>
+        <Text style={styles.subtitle}>
+          Location tracking & Contact Info
+        </Text>
+        <Text style={styles.paragraph}>
+          You will be prompted to provide Get Home Safe access to your location and contacts in order to use this app. 
+        </Text>
+        <Text style={styles.paragraph}>
+          This will only be used to track your location when you choose to share it with your trusted contacts.
+        </Text>
+        <TouchableOpacity 
+          onPress={() => navigation.navigate("Map")}>
+          <View style = {styles.button}>
+            <Text style={styles.buttonText}> Continue</Text>
+          </View>
+          </TouchableOpacity>
+      </View>
     </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     marginLeft: 20
+  },
+
+  image: {
+    width: '100%',
+    height: Dimensions.get('window').height / 2,
+    resizeMode: 'stretch',
   },
 
   title: {

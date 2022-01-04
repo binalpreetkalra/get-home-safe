@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, ImageBackground} from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight, ImageBackground, Dimensions} from 'react-native';
 
 import auth from '@react-native-firebase/auth';
 
@@ -28,21 +28,36 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          GET HOME {"\n"}SAFE
-        </Text>
-        <View style={styles.buttonContainer}>
-        <TouchableHighlight style={styles.button}
-          onPress={this.continue}>
-            <Text style={styles.buttonText}> GET STARTED</Text>
-          </TouchableHighlight>
-        </View>
+        <ImageBackground source={require('./bkgd.png')} style={styles.bkgd}>
+          <ImageBackground source={require('./circle.png')} style={styles.circle}>
+            <Text style={styles.title}>
+              GET HOME {"\n"}SAFE
+            </Text>
+          </ImageBackground>
+          <View style={styles.buttonContainer}>
+          <TouchableHighlight style={styles.button}
+            onPress={this.continue}>
+              <Text style={styles.buttonText}> GET STARTED</Text>
+            </TouchableHighlight>
+          </View>
+        </ImageBackground>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  bkgd: {
+    width: '100%',
+    height: '100%'
+  },
+  circle: {
+    marginTop: 50,
+    width: Dimensions.get('window').width * 0.6,
+    height: Dimensions.get('window').width * 0.6,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -54,7 +69,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 35,
-    marginTop: 100,
+    alignSelf: 'center',
   },
 
   buttonContainer: {

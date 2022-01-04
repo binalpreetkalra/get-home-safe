@@ -11,16 +11,18 @@ import auth from '@react-native-firebase/auth';
 import SendSMS from 'react-native-sms';
 import { selectContactPhone } from 'react-native-select-contact';
 
+import {RandomHandle, Hash} from './websiteCode'
+
 export default class MapScreen extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { contacts:[] ,
+        this.state = { contacts:[], chosenCount: 0,
                     sessionStarted: false, color: default_col,
-                    markers: [], order: 0}
+                    markers: [], order: 0, origin_lat: 0, origin_long: 0}
 
         //bind functions that depend of 'this'
-        this.startSession = this.startSession.bind(this);
+        this.changeSession = this.changeSession.bind(this);
         this.openContacts = this.openContacts.bind(this);
         this.signout = this.signout.bind(this);
 
@@ -29,65 +31,105 @@ export default class MapScreen extends Component {
         //show initial contacts
         this.getSavedContacts();
 
-        //start timer
         this.initialMapUpdate();
+        //after initial map update, if there are locations saved, session started from before
+        
+        //start timer
         this.watchPosition();
     }
 
-    startSession() {
+    changeSession() {
         console.log("clicked");
-        this.setState({sessionStarted: true, color: 'grey'});
-        this.sendSms();
+        if (!this.state.sessionStarted){
+            this.setState({sessionStarted: true, color: 'grey'});
+            let message = "Keep an eye on my journey by visiting: " + this.getWebsiteLink();
+            console.log(message);
+            this.sendSms(message);
+        } else {
+            console.log("END");
+            //send safety text
+            this.setState({sessionStarted: false, color: default_col});
+            //clear markers
+            this.setState({markers: []});
+            //clear stored locations
+            database().ref("users/" + this.uid).child("locations").remove();
+            database().ref("users/" + this.uid).child("verification").remove();
+
+            this.sendSms("I have reached my destination!");
+        }
     }
 
-    sendSms () {
+    getWebsiteLink () {
+        let random = RandomHandle(10);
+        let hash = Hash(random);
+        database().ref("users/" + this.uid).child('verification').set(hash);
+
+        return host_link + "/" + this.uid + "/" + random;
+    }
+
+    sendSms (message) {
+        let sendContacts = []
         for (i=0; i<this.state.contacts.length; i++) {
             let c = this.state.contacts[i];
             if (c.check) {
-                SendSMS.send({
-                    body: "send link here",
-                    recipients: [c.phone],
-                    successTypes: ['sent', 'queued'],
-                    allowAndroidSendWithoutReadPermission: true,
-                }, (completed, cancelled, error) => {
-                    console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
-                });
+                sendContacts = [...sendContacts, c.phone]
             }
         }
+
+        SendSMS.send({
+            body: message,
+            recipients: sendContacts,
+            successTypes: ['sent', 'queued'],
+            allowAndroidSendWithoutReadPermission: true,
+        }, (completed, cancelled, error) => {
+            console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
+        });
+
     }
 
     watchPosition () {
         Geolocation.watchPosition(
             info => this.updateDatabase(info),
             error => console.log(error),
-            {enableHighAccuracy: true, interval: 3000, distanceFilter: 10})
+            {enableHighAccuracy: true, interval: 3000, distanceFilter: min_distance})
     }
 
     initialMapUpdate() { //call when app opened - all initial markers
-        database().ref(this.uid + "/locations").once("value", snap =>
+        database().ref("users/" + this.uid + "/locations").once("value", snap =>
             {
             snap.forEach(childSnap =>
             {
+                if (!this.state.sessionStarted) {
+                    this.setState({sessionStarted: true})
+                }
                 let lat = childSnap.child('item/coords/latitude').val();
                 let long = childSnap.child('item/coords/longitude').val();
                 this.addMarker(lat, long);
+                found = true;
+
             })
         });
     }
 
     updateDatabase = item => {
         console.log("lat: " + item.coords.latitude + " long " + item.coords.longitude)
+
         //update map and database at the same time
         this.addMarker(item.coords.latitude, item.coords.longitude);
 
         //if session started, store info, otherwise just collect and display
         if (this.state.sessionStarted) {
-            database().ref(this.uid + "/locations").push({
+            database().ref("users/" + this.uid + "/locations").push({
                 item});
         }
     }
 
     addMarker(lat, long) {
+        //update map focus once
+        if (this.state.origin_lat == 0 && this.state.origin_long == 0){
+            this.setState({origin_lat: lat, origin_long: long});
+        }
+
         if (this.state.sessionStarted) {
             this.setState({order: this.state.order+1});
 
@@ -121,7 +163,7 @@ export default class MapScreen extends Component {
     }
 
     getSavedContacts() {
-        database().ref(this.uid + "/contacts").once("value", snap =>
+        database().ref("users/" + this.uid + "/contacts").once("value", snap =>
             {
             snap.forEach(childSnap =>
             {
@@ -139,7 +181,7 @@ export default class MapScreen extends Component {
                                 {name: name, phone: phone, check: false}]
                             });
         if (db)
-            database().ref(this.uid + '/contacts').push({name: name, phone: phone});
+            database().ref("users/" + this.uid + '/contacts').push({name: name, phone: phone});
     }
 
     openContacts () {
@@ -163,6 +205,11 @@ export default class MapScreen extends Component {
         //modify array and state
         items[index] = item;
         this.setState({contacts: items});
+
+        if (newVal)
+            this.setState({chosenCount: this.state.chosenCount+1})
+        else
+            this.setState({chosenCount: this.state.chosenCount-1})
     }
 
     renderContacts() {
@@ -179,7 +226,7 @@ export default class MapScreen extends Component {
 
     deleteContact (index) {
         //delete from database
-        database().ref(this.uid + "/contacts").once("value", snap =>
+        database().ref("users/" + this.uid + "/contacts").once("value", snap =>
             {
             snap.forEach(childSnap =>
             {
@@ -203,7 +250,7 @@ export default class MapScreen extends Component {
         return (
             <View style={styles.row} key={index}>
 
-                <CheckBox disabled={this.state.sessionStarted} 
+                <CheckBox
                         tintColors={{true: this.state.color}}
                         value={this.state.contacts[index]['check']}
                         onValueChange={(newValue) => this.handleCheckBoxChanged(index, newValue)}/>
@@ -235,7 +282,13 @@ export default class MapScreen extends Component {
                 {/* map */}
                 <View alignItems='center'>
                     <MapView style = {styles.map}
-                        zoomEnabled = {true}>
+                        zoomEnabled = {true}
+                        region = {{
+                            latitude: this.state.origin_lat,
+                            longitude: this.state.origin_long,
+                            latitudeDelta: 0.015,
+                            longitudeDelta: 0.015,
+                        }}>
                         {this.renderMarkers()}
                     </MapView>
                 </View>
@@ -262,25 +315,28 @@ export default class MapScreen extends Component {
                 {/* bottom button */}
                 <View style={styles.footer}>
                     <TouchableOpacity 
+                        disabled = {this.state.chosenCount == 0 ? true : false}
                         // since dependent on state, add style here
                         style={{width: '75%',
                                 height: 40,
                                 borderRadius: 10,
                                 justifyContent: 'center',
                                 alignItems: 'center', 
-                                backgroundColor: this.state.color,
-                                disabled: this.state.sessionStarted}}
-                        onPress={this.startSession}>
+                                backgroundColor: this.state.sessionStarted ? 'red' : this.state.chosenCount == 0 ? 'grey' : default_col}}
+                        onPress={this.changeSession}>
 
-                        <Text style={styles.session_text}>Share Location</Text>
+                        <Text style={styles.session_text}>{this.state.sessionStarted? "End Session" : "Start Session"} </Text>
                     </TouchableOpacity>
                 </View>
+                
             </View>
         )
     }
 }
 
 const default_col = '#6CBCAE';
+const min_distance = 1;
+const host_link = "localhost:500"
 
 const styles = StyleSheet.create({
     heading_large: {
