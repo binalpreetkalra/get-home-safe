@@ -22,9 +22,9 @@ function Authenticate () {
 
   useEffect(() => {
     let db = getDatabase();
-    get(child(ref(db), `users/${uid}/verification`)).then((snapshot) => {
+    get(child(ref(db), `${uid}/verification`)).then((snapshot) => {
         if (snapshot.exists()){
-            if (snapshot.val() === Hash(handle))
+            if (snapshot.val() === handle)
             {
                 console.log("success: " + uid);
                 //route to map, pass uid
@@ -32,24 +32,12 @@ function Authenticate () {
                 
             } else {
                 console.log("incorrect");
-                navigate('/error');
             }
         } else {
             console.log("user dne");
-            navigate('/error');
         }
     });
   })
-
-  const Hash = (string)  => {
-    let hash = 0;
-  
-    for (let i=0; i<string.length; i++) {
-        let c = string.charCodeAt(i);
-        hash = ((hash << 5) - hash ) + c;
-    }
-    return hash;
-  }
 
   //get uid if user exists
         const container = {

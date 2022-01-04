@@ -19,7 +19,7 @@ class App extends Component {
     return (
       <Router>
         <Routes>
-            <Route path="/" element={<Home/>} />
+            <Route path="/home" element={<Home/>} />
             <Route path="/:uid/:handle" element={<Authenticate/>} />
             <Route path='/map' element={<Map/>}/>
             <Route path='/loading' element={<Loading/>}/>

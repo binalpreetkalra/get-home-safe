@@ -68,9 +68,9 @@ export default function Map() {
             baseProfile="full"
             width="10"
             height="10"
-            //xlmns="http://www/w3/org/2000/svg"
+            xlmns="http://www/w3/org/2000/svg"
           >
-            <rect width="100%" height="100%" fill="#D40B0B"></rect>
+            <rect width="100%" height="100%" fill="red"></rect>
           </svg>
         </Marker>
       );
@@ -194,6 +194,7 @@ export default function Map() {
                 {...this.state.viewport}
                 width="85vw"
                 height="50vh"
+                zoom="15"
                 region={{latitude: this.state.init_lat, longitude: this.state.init_long}}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
                 onViewportChange={(viewport) => this.setState({ viewport })}

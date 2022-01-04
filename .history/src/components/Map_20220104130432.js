@@ -70,7 +70,7 @@ export default function Map() {
             height="10"
             //xlmns="http://www/w3/org/2000/svg"
           >
-            <rect width="100%" height="100%" fill="#D40B0B"></rect>
+            <rect width="100%" height="100%" fill="#6CBCAE"></rect>
           </svg>
         </Marker>
       );
