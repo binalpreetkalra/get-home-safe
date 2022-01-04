@@ -13,3 +13,5 @@ function Home() {
 }
 
 export default Home;
+
+//position: 'fixed', backgroundSize: 'contain', backgroundPosition: 'center'

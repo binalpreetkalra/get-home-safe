@@ -6,7 +6,7 @@ function Home() {
   return (
     <div>
       <img 
-      style={{height: '100vh', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} 
+      style={{position: 'fixed', minWidth: '100%', minHeight: '100%', backgroundSize: 'contain', backgroundPosition: 'center' }} 
       src={background}/>
     </div>
   );
