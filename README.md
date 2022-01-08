@@ -24,3 +24,6 @@ The share button sends a link to the web-app via text to all selected contacts w
 
 The end session button enables the user to stop sharing their location.
 
+## Storing the user's location
+
+### Hash Codes
