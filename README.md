@@ -11,4 +11,8 @@ A web applciation and an app to share location to help university students get b
 
 ## The Application
 
+### Sign in
+
+### Location Permissions
+
 ### Home Page
