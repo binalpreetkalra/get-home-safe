@@ -10,8 +10,7 @@ import { initializeApp } from "firebase/app";
 
 import { useLocation } from "react-router-dom";
 
-const MAPBOX_TOKEN =
-  "pk.eyJ1IjoiaW5zcGlyZWRieWJpbmFsIiwiYSI6ImNreGw1NmM1ajVudmIzMW11Yzh3eXJoZXAifQ.fjUlSMdnVlGlOfOtQm1LHA"; // Set your mapbox token here
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
 
 export default function Map() {
   const { state } = useLocation();
@@ -43,7 +42,7 @@ export default function Map() {
 
       //initialize firebase
       let firebaseConfig = {
-        apiKey: "AIzaSyAfn6G63Dind4XNtE9DTI-e76okA3sIjCQ",
+        apiKey: process.env.REACT_APP_FIREBASE_KEY,
         authDomain: "walk-safe-a8a0c.firebaseapp.com",
         databaseURL: "https://walk-safe-a8a0c-default-rtdb.firebaseio.com",
       };

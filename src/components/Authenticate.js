@@ -11,7 +11,7 @@ function Authenticate () {
   //initialize firebase
   let firebaseConfig = 
   {
-    apiKey: "AIzaSyAfn6G63Dind4XNtE9DTI-e76okA3sIjCQ",
+    apiKey: process.env.REACT_APP_FIREBASE_KEY,
     authDomain: "walk-safe-a8a0c.firebaseapp.com",
     databaseURL: "https://walk-safe-a8a0c-default-rtdb.firebaseio.com",
   };
