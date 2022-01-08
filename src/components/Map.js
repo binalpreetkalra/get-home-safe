@@ -9,8 +9,6 @@ import { getDatabase, ref, onValue, child, get } from "firebase/database";
 import { initializeApp } from "firebase/app";
 
 import { useLocation } from "react-router-dom";
-import { map } from "@firebase/util";
-import { Alert } from "bootstrap";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiaW5zcGlyZWRieWJpbmFsIiwiYSI6ImNreGw1NmM1ajVudmIzMW11Yzh3eXJoZXAifQ.fjUlSMdnVlGlOfOtQm1LHA"; // Set your mapbox token here
@@ -38,7 +36,10 @@ export default function Map() {
         init_lat: null,
         init_long: null,
         emergency: null,
+        last_seen: -1,
       };
+
+      this.callEmergency = this.callEmergency.bind(this);
 
       //initialize firebase
       let firebaseConfig = {
@@ -56,8 +57,6 @@ export default function Map() {
       this.startLocChangeListener();
       console.log(this.props);
 
-      //TEMPORARY TESTING
-      // this.setInitCountry(-73.989, 40.733);
     }
 
     renderMarker(loc) {
@@ -111,9 +110,17 @@ export default function Map() {
         snap.forEach((childSnap) => {
           let lat = childSnap.child("item/coords/latitude").val();
           let long = childSnap.child("item/coords/longitude").val();
+          let time = childSnap.child("item/timestamp").val() / 1000;
+          
+          //process time (seconds from 2000) to minutes from current
+          let curr_time = new Date() / 1000;
+          console.log("seconds: " , curr_time, " : ", time);
+
+          this.setState({last_seen: parseInt((curr_time-time)/60)});
 
           if (this.state.init_lat == null) {
             this.setState({init_lat: lat, init_long: long})
+            console.log("here");
             this.setInitCountry(lat, long);
           }
           
@@ -126,16 +133,15 @@ export default function Map() {
       fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_TOKEN}`)
       .then(response => response.json())
       .then(data => {
-        let country = data.features[0];
-        let code = country.properties.short_code;
-        console.log(code);
+        let country = data.features[0].context.at(-1);
+        let code = country.short_code;
 
         //find emergency phone w firebase
         get(child(ref(this.db), `emergency`)).then((snap) => {
           snap.forEach(childSnap => {
             if (childSnap.key == code){
               let num = childSnap.val()[0];
-              console.log(num);
+              console.log("EMERGENCY: " , num);
               this.setState({emergency: num})
             }
           })
@@ -144,6 +150,7 @@ export default function Map() {
     }
 
     callEmergency() {
+      console.log(this.state.emergency)
       if (this.state.emergency != null){
         window.open(`tel:${this.state.emergency}`);
       } else {
@@ -177,7 +184,7 @@ export default function Map() {
               </MapGL>
             </Row>
             <Row style={mystyle} className="location-info">
-              <div style={smalltext}>Last seen x minutes ago</div>
+              <div style={smalltext}>Last seen {this.state.last_seen} minutes ago</div>
               <div style={boldpara}>Once the user ends their location sharing session, you will be notified.</div>
               <div style={headingtwo}>Notice something of concern?</div>
               <ul style={bullets}>{listItems}</ul>,
