@@ -22,7 +22,7 @@ The user can see their current location from the home page and they can select t
 
 The share button sends a link to the web-app via text to all selected contacts with a link to track the user's location.
 
-The end session button enables the user to stop sharing their location.
+Once the user reaches their destination, the end session button enables the user to stop sharing their location.
 
 ## Storing the user's location
 
