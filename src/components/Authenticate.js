@@ -1,34 +1,42 @@
 import {useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import {getDatabase, ref, child, get} from 'firebase/database';
-import {initializeApp} from 'firebase/app';
+import {getDatabase, ref, child, get, set} from 'firebase/database';
+import { getAuth, signInAnonymously } from "firebase/auth";
+
+import firebase from '../Firebase.js';
 
 function Authenticate () {
   const { handle } = useParams();
   const { uid } = useParams();
 
-  //initialize firebase
-  let firebaseConfig = 
-  {
-    apiKey: process.env.REACT_APP_FIREBASE_KEY,
-    authDomain: "walk-safe-a8a0c.firebaseapp.com",
-    databaseURL: "https://walk-safe-a8a0c-default-rtdb.firebaseio.com",
-  };
-
-  initializeApp(firebaseConfig);
-
   let navigate = useNavigate();
+  let db = getDatabase(firebase);
 
+  //if the url is valid, add approved user to the current user's info -- firebase rules
+  const addApproved = () => {
+      console.log("HERE");
+      let auth = getAuth(firebase);
+      signInAnonymously(auth)
+      .then((credential) => {
+          console.log("UID: ", credential.user.uid);
+          let curr_uid = credential.user.uid;
+          set(ref(db, `viewers/${curr_uid}`), uid)
+          .then(navigate('/map', {state: uid}));
+      })
+      .catch((error) => {
+          console.log(error);
+      })
+  }
+
+  //check is url matches whats stored in db
   useEffect(() => {
-    let db = getDatabase();
     get(child(ref(db), `users/${uid}/verification`)).then((snapshot) => {
         if (snapshot.exists()){
             if (snapshot.val() === Hash(handle))
             {
-                console.log("success: " + uid);
                 //route to map, pass uid
-                navigate('/map', {state: uid});
+                addApproved();
                 
             } else {
                 console.log("incorrect");

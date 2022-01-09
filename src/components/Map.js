@@ -5,17 +5,23 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import styled from 'styled-components';
 
-import { getDatabase, ref, onValue, child, get } from "firebase/database";
-import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onValue, child, get, set } from "firebase/database";
+import firebase from '../Firebase.js' 
+import {DeleteUser} from "./DeleteUser.js"
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
+const MAPBOX_TOKEN =
+  "pk.eyJ1IjoiaW5zcGlyZWRieWJpbmFsIiwiYSI6ImNreGw1NmM1ajVudmIzMW11Yzh3eXJoZXAifQ.fjUlSMdnVlGlOfOtQm1LHA"; // Set your mapbox token here
 
 export default function Map() {
   const { state } = useLocation();
   const uid = state;
-  console.log(uid);
+  const navigate = useNavigate();
+
+  window.addEventListener("beforeunload", () => {
+    DeleteUser();
+  })
 
   class MapClass extends Component {
     constructor(props) {
@@ -39,16 +45,8 @@ export default function Map() {
       };
 
       this.callEmergency = this.callEmergency.bind(this);
-
-      //initialize firebase
-      let firebaseConfig = {
-        apiKey: process.env.REACT_APP_FIREBASE_KEY,
-        authDomain: "walk-safe-a8a0c.firebaseapp.com",
-        databaseURL: "https://walk-safe-a8a0c-default-rtdb.firebaseio.com",
-      };
-      initializeApp(firebaseConfig);
-
-      this.db = getDatabase();
+    
+      this.db = getDatabase(firebase);
     }
 
     componentDidMount() {
