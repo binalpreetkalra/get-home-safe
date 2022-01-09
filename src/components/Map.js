@@ -12,12 +12,11 @@ import {DeleteUser} from "./DeleteUser.js"
 import { useLocation, useNavigate } from "react-router-dom";
 
 const MAPBOX_TOKEN =
-  "pk.eyJ1IjoiaW5zcGlyZWRieWJpbmFsIiwiYSI6ImNreGw1NmM1ajVudmIzMW11Yzh3eXJoZXAifQ.fjUlSMdnVlGlOfOtQm1LHA"; // Set your mapbox token here
+  process.env.REACT_APP_MAPBOX_KEY; // Set your mapbox token here
 
 export default function Map() {
   const { state } = useLocation();
   const uid = state;
-  const navigate = useNavigate();
 
   window.addEventListener("beforeunload", () => {
     DeleteUser();
