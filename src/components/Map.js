@@ -9,7 +9,7 @@ import { getDatabase, ref, onValue, child, get, set } from "firebase/database";
 import firebase from '../Firebase.js' 
 import {DeleteUser} from "./DeleteUser.js"
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const MAPBOX_TOKEN =
   process.env.REACT_APP_MAPBOX_KEY; // Set your mapbox token here
@@ -51,7 +51,6 @@ export default function Map() {
     componentDidMount() {
       //listen for added location
       this.startLocChangeListener();
-      console.log(this.props);
 
     }
 
@@ -77,7 +76,6 @@ export default function Map() {
     }
 
     renderMarkers() {
-      console.log(this.state.markers.length);
 
       if (this.state.markers.length === 0) return;
       return this.state.markers.map(this.renderMarker);
@@ -96,9 +94,7 @@ export default function Map() {
               order: this.state.order,
             },
           ],
-        },
-        () => console.log("len: " + this.state.markers.length)
-      );
+        });
     }
 
     startLocChangeListener() {
@@ -110,13 +106,11 @@ export default function Map() {
           
           //process time (seconds from 2000) to minutes from current
           let curr_time = new Date() / 1000;
-          console.log("seconds: " , curr_time, " : ", time);
 
           this.setState({last_seen: parseInt((curr_time-time)/60)});
 
           if (this.state.init_lat == null) {
             this.setState({init_lat: lat, init_long: long})
-            console.log("here");
             this.setInitCountry(lat, long);
           }
           
@@ -137,7 +131,6 @@ export default function Map() {
           snap.forEach(childSnap => {
             if (childSnap.key == code){
               let num = childSnap.val()[0];
-              console.log("EMERGENCY: " , num);
               this.setState({emergency: num})
             }
           })
@@ -146,7 +139,6 @@ export default function Map() {
     }
 
     callEmergency() {
-      console.log(this.state.emergency)
       if (this.state.emergency != null){
         window.open(`tel:${this.state.emergency}`);
       } else {

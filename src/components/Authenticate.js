@@ -15,11 +15,9 @@ function Authenticate () {
 
   //if the url is valid, add approved user to the current user's info -- firebase rules
   const addApproved = () => {
-      console.log("HERE");
       let auth = getAuth(firebase);
       signInAnonymously(auth)
       .then((credential) => {
-          console.log("UID: ", credential.user.uid);
           let curr_uid = credential.user.uid;
           set(ref(db, `viewers/${curr_uid}`), uid)
           .then(navigate('/map', {state: uid}));
@@ -39,11 +37,9 @@ function Authenticate () {
                 addApproved();
                 
             } else {
-                console.log("incorrect");
                 navigate('/error');
             }
         } else {
-            console.log("user dne");
             navigate('/error');
         }
     });
