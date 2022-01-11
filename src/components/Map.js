@@ -12,7 +12,7 @@ import {DeleteUser} from "./DeleteUser.js"
 import { useLocation } from "react-router-dom";
 
 const MAPBOX_TOKEN =
-  process.env.REACT_APP_MAPBOX_KEY; // Set your mapbox token here
+  process.env.REACT_NATIVE_MAPBOX_KEY; // Set your mapbox token here
 
 export default function Map() {
   const { state } = useLocation();
@@ -100,9 +100,9 @@ export default function Map() {
     startLocChangeListener() {
       onValue(child(ref(this.db), `users/${uid}/locations`), (snap) => {
         snap.forEach((childSnap) => {
-          let lat = childSnap.child("item/coords/latitude").val();
-          let long = childSnap.child("item/coords/longitude").val();
-          let time = childSnap.child("item/timestamp").val() / 1000;
+          let lat = childSnap.child("item/latitude").val();
+          let long = childSnap.child("item/longitude").val();
+          let time = childSnap.child("item/time").val() / 1000;
           
           //process time (seconds from 2000) to minutes from current
           let curr_time = new Date() / 1000;

@@ -4,7 +4,7 @@ import {initializeApp} from "firebase/app";
 
 //initialize firebase
 let firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_KEY,
+    apiKey: process.env.REACT_NATIVE_FIREBASE_KEY,
     authDomain: "walk-safe-a8a0c.firebaseapp.com",
     databaseURL: "https://walk-safe-a8a0c-default-rtdb.firebaseio.com",
   };
