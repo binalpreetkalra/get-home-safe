@@ -91,9 +91,9 @@ export default class Confirmation extends Component {
   render() {
     return (
       <View flex={1} backgroundColor="white">
-        <View flex={2}>
+        {/* <View flex={2}>
           <Image source={require('./bkgd-squiggle.png')} style={styles.image}/>
-        </View>
+        </View> */}
 
         <View style={styles.container}>
           <Text style={styles.title}>
@@ -141,7 +141,9 @@ const code_length = 6;
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    marginLeft: 20
+    marginLeft: 40,
+    marginRight: 40,
+    justifyContent: 'center',
   },
 
   image: {
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
   inputs_container: {
     width: '100%',
     paddingRight: 20,
-    paddingTop: 20,
+    paddingTop: 30,
     flexDirection: 'row',
   },
 
@@ -176,13 +178,13 @@ const styles = StyleSheet.create({
     color: '#2D2323',
     fontWeight: 'bold',
     fontSize: 18,
-    marginTop: 30,
+    marginTop: 40,
   },
 
   paragraph: {
     color: '#2D2323',
     fontSize: 14,
-    marginTop: 15,
+    marginTop: 35,
   },
 
   input: {
@@ -198,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    marginTop: 20,
+    marginTop: 30,
     borderRadius: 10,
   },
 

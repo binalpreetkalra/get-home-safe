@@ -192,6 +192,9 @@ android {
 }
 
 dependencies {
+    compile project(':@mauron85_react-native-background-geolocation')
+    //bkgd task
+    implementation 'androidx.work:work-runtime:workmanagerversion'
     //firebase bom
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     //implementation 'com.google.firebase:firebase-analytics'

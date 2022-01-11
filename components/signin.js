@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 import PhoneInput from "react-native-phone-number-input";
 
@@ -19,10 +19,10 @@ export default class Signin extends Component {
   
   render(){
     return (
-      <View flex={1} backgroundColor='white'>
-        <View flex={2}>
+      <KeyboardAvoidingView flex={1} backgroundColor='white' enabled>
+        {/* <View flex={2}>
          <Image source={require('./bkgd-squiggle.png')} style={styles.image}/>
-        </View>
+        </View> */}
 
         <View style={styles.container}>
           <Text style={styles.title}>
@@ -47,7 +47,7 @@ export default class Signin extends Component {
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -55,7 +55,9 @@ export default class Signin extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    marginLeft: 20,
+    marginLeft: 40,
+    marginRight: 40,
+    justifyContent: 'center',
   },
 
   image: {
@@ -68,9 +70,6 @@ const styles = StyleSheet.create({
     color: '#6CBCAE',
     fontWeight: 'bold',
     fontSize: 25,
-    // textShadowColor: 'white',
-    // textShadowRadius: 2,
-    // textShadowOffset: { width: 2, height: 2, }
   },
 
   subtitle: {
@@ -83,13 +82,14 @@ const styles = StyleSheet.create({
   paragraph: {
     color: '#2D2323',
     fontSize: 14,
-    marginTop: 15,
+    marginTop: 25,
+    marginBottom: 20,
   },
 
   input: {
     color: '#999999',
     fontSize: 16,
-    marginTop: 20,
+    marginTop: 30,
     textDecorationLine: 'underline',
   },
 
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    marginTop: 20,
+    marginTop: 30,
     borderRadius: 10,
   },
 

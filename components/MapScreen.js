@@ -13,6 +13,10 @@ import { selectContactPhone } from 'react-native-select-contact';
 
 import {RandomHandle, Hash} from './websiteCode'
 
+// import BackgroundTimer from 'react-native-background-timer';
+import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
+
+
 export default class MapScreen extends Component {
     constructor(props) {
         super(props);
@@ -35,18 +39,71 @@ export default class MapScreen extends Component {
         //after initial map update, if there are locations saved, session started from before
         
         //start timer
-        this.watchPosition();
+        // this.watchPosition();
+        // this.startTimer();
+    }
+
+    componentDidMount() {
+        this.configureBackgroundTask();
+    }
+
+    componentWillUnmount() {
+        // console.log("unmount");
+        BackgroundGeolocation.removeAllListeners();
+    }
+
+    configureBackgroundTask() {
+        // console.log("mount");
+        BackgroundGeolocation.configure({
+            desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
+            stationaryRadius: 1,
+            distanceFilter: 1,
+            notificationTitle: 'Background tracking',
+            notificationText: 'enabled',
+            debug: false,
+            startOnBoot: false,
+            stopOnTerminate: true,
+            locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
+            interval: 5000,
+            fastestInterval: 5000,
+            activitiesInterval: 5000,
+            stopOnStillActivity: false
+          });
+
+        BackgroundGeolocation.on("location", (location) => {
+            let lat = location.latitude;
+            let long = location.longitude;
+
+            if (lat != this.state.origin_lat && long != this.state.origin_long){
+                this.updateDatabase(location);
+                this.setState({origin_lat: lat, origin_long: long});
+                // console.log("lat: " + lat + " long: " + long);
+            }
+        })
+
+        BackgroundGeolocation.on("start", () => {console.log("Background started")});
+
+        BackgroundGeolocation.checkStatus(status => {
+            console.log('[INFO] BackgroundGeolocation service is running', status.isRunning);
+      
+            // you don't need to check status before start (this is just the example)
+            if (!status.isRunning) {
+              BackgroundGeolocation.start(); //triggers start on start event
+            }
+        });
+
+        BackgroundGeolocation.start();
     }
 
     changeSession() {
-        console.log("clicked");
+        // console.log("clicked");
         if (!this.state.sessionStarted){
             this.setState({sessionStarted: true, color: 'grey'});
             let message = "Keep an eye on my journey by visiting: " + this.getWebsiteLink();
-            console.log(message);
+            // console.log(message);
             this.sendSms(message);
         } else {
-            console.log("END");
+            // console.log("END");
             //send safety text
             this.setState({sessionStarted: false, color: default_col});
             //clear markers
@@ -82,17 +139,29 @@ export default class MapScreen extends Component {
             successTypes: ['sent', 'queued'],
             allowAndroidSendWithoutReadPermission: true,
         }, (completed, cancelled, error) => {
-            console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
+            // console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
         });
 
     }
 
-    watchPosition () {
-        Geolocation.watchPosition(
-            info => this.updateDatabase(info),
-            error => console.log(error),
-            {enableHighAccuracy: true, interval: 3000, distanceFilter: min_distance})
-    }
+    // startTimer() {
+    //     BackgroundTimer.runBackgroundTimer(() => {
+    //         console.log("timer")
+    //         Geolocation.getCurrentPosition(
+    //             info => this.updateDatabase(info),
+    //             error => console.log(error),
+    //             {enableHighAccuracy: true, distanceFilter: min_distance }
+    //         )
+    //     },
+    //     5000)
+    // }
+
+    // watchPosition () {
+    //     Geolocation.watchPosition(
+    //         info => this.updateDatabase(info),
+    //         error => console.log(error),
+    //         {enableHighAccuracy: true, interval: 3000, distanceFilter: min_distance})
+    // }
 
     initialMapUpdate() { //call when app opened - all initial markers
         database().ref("users/" + this.uid + "/locations").once("value", snap =>
@@ -102,8 +171,8 @@ export default class MapScreen extends Component {
                 if (!this.state.sessionStarted) {
                     this.setState({sessionStarted: true})
                 }
-                let lat = childSnap.child('item/coords/latitude').val();
-                let long = childSnap.child('item/coords/longitude').val();
+                let lat = childSnap.child('item/latitude').val();
+                let long = childSnap.child('item/longitude').val();
                 this.addMarker(lat, long);
                 found = true;
 
@@ -112,10 +181,9 @@ export default class MapScreen extends Component {
     }
 
     updateDatabase = item => {
-        console.log("lat: " + item.coords.latitude + " long " + item.coords.longitude)
-
         //update map and database at the same time
-        this.addMarker(item.coords.latitude, item.coords.longitude);
+        this.addMarker(item.latitude, item.longitude);
+        //this.addMarker(item.coords.latitude, item.coords.longitude);
 
         //if session started, store info, otherwise just collect and display
         if (this.state.sessionStarted) {
@@ -148,7 +216,7 @@ export default class MapScreen extends Component {
     }
 
     renderMarker(loc) {
-        console.log(loc);
+        // console.log(loc);
         return (
             <MapView.Marker
                 coordinate={{ latitude: loc.latitude, longitude: loc.longitude }}
@@ -175,7 +243,7 @@ export default class MapScreen extends Component {
     }
 
     addContact (name, phone, db) {
-        console.log("add contact");
+        // console.log("add contact");
     
         this.setState({contacts: [...this.state.contacts, 
                                 {name: name, phone: phone, check: false}]
@@ -235,15 +303,16 @@ export default class MapScreen extends Component {
                 
                 if (name == this.state.contacts[index].name && phone == this.state.contacts[index].phone) {
                     childSnap.ref.remove();
+
+                    //delete from local array
+                    let arr = this.state.contacts;
+                    arr.splice(index, 1);
+                    this.setState({contacts: arr});
+
+                    return;
                 }
             })
         });
-
-        //delete from local array
-        let arr = this.state.contacts;
-        arr.splice(index, 1);
-        this.setState({contacts: arr}, () => console.log(this.state.contacts));
-
     }
 
     renderOneContact(name, index) {
@@ -335,8 +404,8 @@ export default class MapScreen extends Component {
 }
 
 const default_col = '#6CBCAE';
-const min_distance = 1;
-const host_link = "localhost:500"
+const min_distance = 1; //HIGH accuracy
+const host_link = "localhost:3000"
 
 const styles = StyleSheet.create({
     heading_large: {

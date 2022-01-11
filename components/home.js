@@ -28,7 +28,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground source={require('./bkgd.png')} style={styles.bkgd}>
+        <ImageBackground source={require('./light-bkgd.png')} style={styles.bkgd}>
           <ImageBackground source={require('./circle.png')} style={styles.circle}>
             <Text style={styles.title}>
               GET HOME {"\n"}SAFE

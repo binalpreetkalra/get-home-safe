@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Dimensions , TouchableOpacity, Image} from 'react-native';
+import { Text, View, StyleSheet, Dimensions , TouchableOpacity, SafeAreaView} from 'react-native';
 
 export default function Confirmation({navigation}) {
   
   const [number, onChangeNumber] = React.useState(null);
 
+
   return (
-    <View flex={1}>
-      <View flex={2}>
+    <SafeAreaView flex={1}>
+      {/* <View flex={2}>
         <Image source={require('./bkgd-squiggle.png')} style={styles.image}/>
-      </View>
+      </View> */}
 
       <View style={styles.container}>
         <Text style={styles.title}>
@@ -31,7 +32,7 @@ export default function Confirmation({navigation}) {
           </View>
           </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
     
   );
 }
@@ -39,7 +40,9 @@ export default function Confirmation({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    marginLeft: 20
+    marginLeft: 40,
+    marginRight: 40,
+    justifyContent: 'center',
   },
 
   image: {
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
   paragraph: {
     color: '#2D2323',
     fontSize: 14,
-    marginTop: 15,
+    marginTop: 25,
   },
 
     button: {
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    marginTop: 20,
+    marginTop: 30,
     borderRadius: 10,
   },
 
