@@ -12,7 +12,7 @@ import {DeleteUser} from "./DeleteUser.js"
 import { useLocation } from "react-router-dom";
 
 const MAPBOX_TOKEN =
-process.env.REACT_APP_MAPBOX_KEY; // Set your mapbox token here
+"pk.eyJ1IjoiaW5zcGlyZWRieWJpbmFsIiwiYSI6ImNreGw1NmM1ajVudmIzMW11Yzh3eXJoZXAifQ.fjUlSMdnVlGlOfOtQm1LHA"; // Set your mapbox token here
 
 export default function Map() {
   const { state } = useLocation();
@@ -100,9 +100,9 @@ export default function Map() {
     startLocChangeListener() {
       onValue(child(ref(this.db), `users/${uid}/locations`), (snap) => {
         snap.forEach((childSnap) => {
-          let lat = childSnap.child("item/latitude").val();
-          let long = childSnap.child("item/longitude").val();
-          let time = childSnap.child("item/time").val() / 1000;
+          let lat = childSnap.child("item/coords/latitude").val();
+          let long = childSnap.child("item/coords/longitude").val();
+          let time = childSnap.child("item/timestamp").val() / 1000;
           
           //process time (seconds from 2000) to minutes from current
           let curr_time = new Date() / 1000;
@@ -172,7 +172,7 @@ export default function Map() {
               </MapGL>
             </Row>
             <Row style={mystyle} className="location-info">
-              <div style={smalltext}>Last seen {this.state.last_seen} minutes ago</div>
+              <div style={smalltext}>Last seen {this.state.last_seen} minute ago</div>
               <div style={boldpara}>Once the user ends their location sharing session, you will be notified.</div>
               <div style={headingtwo}>Notice something of concern?</div>
               <ul style={bullets}>{listItems}</ul>,
