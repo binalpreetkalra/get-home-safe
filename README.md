@@ -26,4 +26,3 @@ Once the user reaches their destination, the end session button enables the user
 
 ## Storing the user's location
 
-### Hash Codes
