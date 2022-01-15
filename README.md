@@ -9,12 +9,12 @@ There are two main components of this project:
 User Flow:
 //enter gifs + short description of the process
 
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="125" height="270.6" />
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/send%20link.gif" width="125" height="270.6" />
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/verification%20x2.gif" width="125" height="270.6" />
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/endsession.gif" width="125" height="270.6" />
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/addcontact2.gif" width="125" height="270.6" />
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/webapp.gif" width="125" height="270.6" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/send%20link.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/verification%20x2.gif" width="187.5" height="406" />
+
+
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/endsession.gif" width="187.5" height="406" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/addcontact2.gif" width="187.5" height="406" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/webapp.gif" width="187.5" height="406" />
 
 ### 2) React web application that is opened with the custom link sent to the users’ selected contacts where the contacts can track the user’s live location to ensure their friends get home safe.
 
