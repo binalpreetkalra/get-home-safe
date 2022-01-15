@@ -6,19 +6,13 @@ A software solution to help university solutions get to their destinations safel
 There are two main components of this project:
 ### 1) React Native mobile application where users can share their location through an automated text message with their selected contacts until they choose to end their location sharing session.
 
-User Flow:
-//enter gifs + short description of the process
+**User Flow:**
 
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/send%20link.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/verification%20x2.gif" width="187.5" height="406" />
-
-
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/endsession.gif" width="187.5" height="406" />
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/addcontact2.gif" width="187.5" height="406" />
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/webapp.gif" width="187.5" height="406" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/verification%20x2.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/addcontact2.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/send%20link.gif" width="187.5" height="406" /> <img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/endsession.gif" width="187.5" height="406" />  
 
 ### 2) React web application that is opened with the custom link sent to the users’ selected contacts where the contacts can track the user’s live location to ensure their friends get home safe.
 
-//enter gifs + short description of the process 
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/webapp.gif" width="187.5" height="406" />
 
 # Highlighted Features:
 
