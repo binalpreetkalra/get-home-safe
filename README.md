@@ -4,14 +4,19 @@ A software solution to help university solutions get to their destinations safel
 **Languages/Tools:** React, React Native, Google Firebase, MapBox GL
 
 There are two main components of this project:
-### React Native mobile application where users can share their location through an automated text message with their selected contacts until they choose to end their location sharing session.
+### 1) React Native mobile application where users can share their location through an automated text message with their selected contacts until they choose to end their location sharing session.
 
 User Flow:
 //enter gifs + short description of the process
 
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="93.75" height="203" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="125" height="270.6" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/send%20link.gif" width="125" height="270.6" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/verification%20x2.gif" width="125" height="270.6" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/endsession.gif" width="125" height="270.6" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/addcontact2.gif" width="125" height="270.6" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/webapp.gif" width="125" height="270.6" />
 
-### React web application that is opened with the custom link sent to the users’ selected contacts where the contacts can track the user’s live location to ensure their friends get home safe.
+### 2) React web application that is opened with the custom link sent to the users’ selected contacts where the contacts can track the user’s live location to ensure their friends get home safe.
 
 //enter gifs + short description of the process 
 
