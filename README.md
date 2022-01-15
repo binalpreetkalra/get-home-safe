@@ -12,7 +12,7 @@ There are two main components of this project:
 
 ### 2) React web application that is opened with the custom link sent to the users’ selected contacts where the contacts can track the user’s live location to ensure their friends get home safe.
 
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/webapp.gif" width="187.5" height="406" />
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/mobile-app/gifs/webapp.gif" width="187.5" height="406" />
 
 # Highlighted Features:
 
