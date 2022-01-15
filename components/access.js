@@ -1,10 +1,15 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Dimensions , TouchableOpacity, SafeAreaView} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 
 export default function Confirmation({navigation}) {
-  
   const [number, onChangeNumber] = React.useState(null);
-
 
   return (
     <SafeAreaView flex={1}>
@@ -13,27 +18,23 @@ export default function Confirmation({navigation}) {
       </View> */}
 
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Grant access
-        </Text>
-        <Text style={styles.subtitle}>
-          Location tracking & Contact Info
+        <Text style={styles.title}>Grant access</Text>
+        <Text style={styles.subtitle}>Location tracking & Contact Info</Text>
+        <Text style={styles.paragraph}>
+          You will be prompted to provide Get Home Safe access to your location
+          and contacts in order to use this app.
         </Text>
         <Text style={styles.paragraph}>
-          You will be prompted to provide Get Home Safe access to your location and contacts in order to use this app. 
+          This will only be used to track your location when you choose to share
+          it with your trusted contacts.
         </Text>
-        <Text style={styles.paragraph}>
-          This will only be used to track your location when you choose to share it with your trusted contacts.
-        </Text>
-        <TouchableOpacity 
-          onPress={() => navigation.navigate("Map")}>
-          <View style = {styles.button}>
+        <TouchableOpacity onPress={() => navigation.navigate('Map')}>
+          <View style={styles.button}>
             <Text style={styles.buttonText}> Continue</Text>
           </View>
-          </TouchableOpacity>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
-    
   );
 }
 
@@ -71,9 +72,9 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
 
-    button: {
+  button: {
     backgroundColor: '#6CBCAE',
-    height:50,
+    height: 50,
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -87,5 +88,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 16,
-  }
+  },
 });
