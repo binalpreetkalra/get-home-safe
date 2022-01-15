@@ -16,7 +16,7 @@ User Flow:
 # Highlighted Features:
 
 ## Security
-..* Since tracking a user’s location poses a high security concern, we took multiple measures to ensure their location and private information is secured.
+..*Since tracking a user’s location poses a high security concern, we took multiple measures to ensure their location and private information is secured.
 The only information about the user that is stored is their phone number and location coordinates. This limits the information others can obtain about the user if anything goes wrong. 
 The web app only displays the user’s randomly generated ID, again, limiting the private information one can see with this link.
 Random link generation w/ 32 bit hash: when a user shares their location, the web-app link is made up of the user’s randomly generated ID and a random alphanumeric string to allow that user’s location markers to show up on that web app. Once the link is shared from the user’s side, the alphanumeric string is stored as a 32 bit hash in the user’s database. When someone opens the shared link, the random string code is put through the same hash function to check if it matches the user’s stored hashed code before displaying the location. This process creates an extra level of security to ensure if someone gets access to the database, they aren’t able to simply take the stores alphanumeric strings to find a user’s current location.
