@@ -1,13 +1,18 @@
-import React from 'react';
-import background from './background.png';
+import React from "react";
+import background from "./background.png";
 
 function Home() {
-
   return (
     <div>
-      <img 
-      style={{height: '100vh', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} 
-      src={background}/>
+      <img
+        style={{
+          height: "100vh",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+        src={background}
+      />
     </div>
   );
 }
