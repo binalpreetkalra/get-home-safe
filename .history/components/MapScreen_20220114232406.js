@@ -383,7 +383,7 @@ export default class MapScreen extends Component {
 
                 {/* bottom button */}
                 <View style={styles.footer}>
-                <TouchableOpacity 
+                    <TouchableOpacity 
                         disabled = {this.state.chosenCount == 0 ? true : false}
                         // since dependent on state, add style here
                         style={{width: '75%',

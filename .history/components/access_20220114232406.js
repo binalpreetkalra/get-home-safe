@@ -17,7 +17,7 @@ export default function Confirmation({navigation}) {
         <Image source={require('./bkgd-squiggle.png')} style={styles.image}/>
       </View> */}
 
-<View style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.title}>Grant access</Text>
         <Text style={styles.subtitle}>Location tracking & Contact Info</Text>
         <Text style={styles.paragraph}>
