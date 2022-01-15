@@ -7,8 +7,10 @@ There are two main components of this project:
 ### React Native mobile application where users can share their location through an automated text message with their selected contacts until they choose to end their location sharing session.
 
 User Flow:
-//enter gifs + short description of the process 
-<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="40" height="40" />
+//enter gifs + short description of the process
+
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="93.75" height="203" />
+
 ### React web application that is opened with the custom link sent to the users’ selected contacts where the contacts can track the user’s live location to ensure their friends get home safe.
 
 //enter gifs + short description of the process 
