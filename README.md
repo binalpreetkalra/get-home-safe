@@ -8,7 +8,7 @@ There are two main components of this project:
 
 User Flow:
 //enter gifs + short description of the process 
-![alt text](https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif "Logo Title Text 1")
+<img src="https://github.com/binalpreetkalra/get-home-safe/blob/main/home%20and%20login.gif" width="40" height="40" />
 ### React web application that is opened with the custom link sent to the users’ selected contacts where the contacts can track the user’s live location to ensure their friends get home safe.
 
 //enter gifs + short description of the process 
